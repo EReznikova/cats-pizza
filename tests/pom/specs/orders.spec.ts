@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/app.fixture';
+import { test } from '../../fixtures/app.fixture';
 import { CleanupApi } from '../api/CleanupApi';
 import { testAddress, testUsers } from '../data/testData';
 
@@ -10,25 +10,25 @@ test.describe('Orders', () => {
     await cleanUpApi.deleteOrdersByEmail(testUsers.existing.email);
   });
 
-  test('Make order with login in checkout', async ({ homePage, checkoutPage, ordersPage }) => {
+  test('Make order with login in checkout', async ({ homePage, checkoutPage, orderPage }) => {
     await homePage.open();
     await homePage.addFirstCatToCart();
     await homePage.goToCheckoutFromCart();
     await checkoutPage.signInAndCheckout(testUsers.existing.email, testUsers.existing.password);
     await checkoutPage.fillAddress(testAddress);
     await checkoutPage.submit();
-    await ordersPage.open();
-    await ordersPage.asserHasOrder();
+    await orderPage.open();
+    await orderPage.asserHasOrder();
   });
 
-  test('Make order after login', async ({ homePage, checkoutPage, ordersPage, authPage }) => {
+  test('Make order after login', async ({ homePage, checkoutPage, orderPage, authPage }) => {
     await homePage.open();
     await authPage.signIn(testUsers.existing.email, testUsers.existing.password);
     await homePage.addFirstCatToCart();
     await homePage.goToCheckoutFromCart();
     await checkoutPage.fillAddress(testAddress);
     await checkoutPage.submit();
-    await ordersPage.open();
-    await ordersPage.asserHasOrder();
+    await orderPage.open();
+    await orderPage.asserHasOrder();
   });
 });
