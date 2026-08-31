@@ -3,6 +3,9 @@ import { HomePage } from '../pom/pages/HomePage';
 import { AuthModal } from '../pom/pages/AuthModal';
 import { CheckoutPage } from '../pom/pages/CheckoutPage';
 import { OrdersPage } from '../pom/pages/OrdersPage';
+import path from 'path';
+
+export const authFile = path.join(process.cwd(), 'playwright/.auth/existing-user.json');
 
 // Declare the types of your fixtures.
 type MyFixtures = {
@@ -12,9 +15,12 @@ type MyFixtures = {
   orderPage: OrdersPage;
 };
 
+type AppOptions = {
+  storageState: string | undefined;
+};
 // Extend base test by providing "todoPage" and "settingsPage".
 // This new "test" can be used in multiple test files, and each of them will get the fixtures.
-export const test = base.extend<MyFixtures>({
+const appTest = base.extend<MyFixtures>({
   homePage: async ({ page }, use) => {
     const homePage = new HomePage(page);
     await use(homePage);
@@ -31,5 +37,9 @@ export const test = base.extend<MyFixtures>({
     const orderPage = new OrdersPage(page);
     await use(orderPage);
   },
+});
+export const guestTest = appTest;
+export const autorizedTest = appTest.extend<AppOptions>({
+  storageState: authFile,
 });
 export { expect } from '@playwright/test';
