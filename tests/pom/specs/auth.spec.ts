@@ -24,4 +24,16 @@ test.describe('Auth', () => {
     await authPage.signUp('Тест', createdUserEmail, testUsers.existing.password);
     await authPage.assertSignedIn();
   });
+
+  test('Shows error for wrong password', async ({ homePage, authPage }) => {
+    await homePage.open();
+    await authPage.signIn(testUsers.existing.email, 'wrong');
+    await authPage.assertError('Неверный email или пароль');
+  });
+
+  test('Reject duplicate regictration', async ({ homePage, authPage }) => {
+    await homePage.open();
+    await authPage.signUp('Name', testUsers.existing.email, testUsers.existing.password);
+    await authPage.assertError('Пользователь с таким email уже существует');
+  });
 });

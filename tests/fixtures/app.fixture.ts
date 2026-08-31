@@ -3,6 +3,7 @@ import { HomePage } from '../pom/pages/HomePage';
 import { AuthModal } from '../pom/pages/AuthModal';
 import { CheckoutPage } from '../pom/pages/CheckoutPage';
 import { OrdersPage } from '../pom/pages/OrdersPage';
+import { CartPage } from '../pom/pages/CartPage';
 import path from 'path';
 
 export const authFile = path.join(process.cwd(), 'playwright/.auth/existing-user.json');
@@ -13,6 +14,7 @@ type MyFixtures = {
   authPage: AuthModal;
   checkoutPage: CheckoutPage;
   orderPage: OrdersPage;
+  cartPage: CartPage;
 };
 
 type AppOptions = {
@@ -36,6 +38,10 @@ const appTest = base.extend<MyFixtures>({
   orderPage: async ({ page }, use) => {
     const orderPage = new OrdersPage(page);
     await use(orderPage);
+  },
+  cartPage: async ({ page }, use) => {
+    const cartPage = new CartPage(page);
+    await use(cartPage);
   },
 });
 export const guestTest = appTest;
