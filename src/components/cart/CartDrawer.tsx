@@ -24,6 +24,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     <div className="cart-drawer-overlay" onClick={onClose}>
       <aside
         className="cart-drawer"
+        data-testid="cart_drawer"
         onClick={(event) => {
           event.stopPropagation();
         }}>

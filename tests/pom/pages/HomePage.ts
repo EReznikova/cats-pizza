@@ -1,4 +1,6 @@
 import { type Page, expect } from '@playwright/test';
+import { CatsApi } from '../api/mockApi/catsApi';
+import { CartApi } from '../api/mockApi/CartApi';
 
 export class HomePage {
   constructor(private page: Page) {
@@ -9,9 +11,34 @@ export class HomePage {
     await this.page.goto('/');
   }
 
+  async setupApiEmptyCart() {
+    const catsApi = new CatsApi(this.page);
+    const cartApi = new CartApi(this.page);
+
+    await cartApi.setEmptyCart();
+    await catsApi.setCatsItems();
+  }
+
+  async setupApiCartWithItem() {
+    const catsApi = new CatsApi(this.page);
+    const cartApi = new CartApi(this.page);
+
+    await cartApi.setCartWithOneItem();
+    await catsApi.setCatsItems();
+  }
+  private getModalLocator() {
+    return this.page.getByTestId('modal');
+  }
+  private getCartDrawerLocator() {
+    return this.page.getByTestId('cart_drawer');
+  }
+
   async addFirstCatToCart() {
     await this.page.getByTestId('catCard_0').getByTestId('addToCartButton').click();
     await this.page.getByTestId('catModalAddToCartButton').click();
+  }
+  async openItenDetailModal() {
+    await this.page.getByTestId('catCard_0').getByTestId('addToCartButton').click();
   }
 
   async goToCheckoutFromCart() {
@@ -44,5 +71,17 @@ export class HomePage {
   async assertCartPageOpened() {
     await expect(this.page).toHaveURL(/\/cart$/);
     await expect(this.page.getByRole('heading', { name: 'Корзина' })).toBeVisible();
+  }
+  async assertCorrectPageVievWithItems() {
+    await expect(this.page).toHaveScreenshot('homePageWithItems.png');
+  }
+  async assertCorrectPageVievWithOpenDetailModal() {
+    await expect(this.getModalLocator()).toHaveScreenshot('detailModal.png');
+  }
+  async assertCorrectViewWithOpenCartEmptyDrawer() {
+    await expect(this.getCartDrawerLocator()).toHaveScreenshot('cartEmptyDrawer.png');
+  }
+  async assertCorrectViewWithOpenCartDrawerWithOneItem() {
+    await expect(this.getCartDrawerLocator()).toHaveScreenshot('cartDrawerWithOneItem.png');
   }
 }

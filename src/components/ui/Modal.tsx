@@ -26,6 +26,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div
+      data-testid="modal"
         className="modal"
         onClick={(event) => {
           event.stopPropagation();
