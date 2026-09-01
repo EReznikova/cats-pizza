@@ -50,7 +50,7 @@ export function Header({ onCartClick }: HeaderProps) {
             <button
               type="button"
               className="auth__link"
-              data-testid="signOutButton"
+              data-testId="signOutButton"
               onClick={logout}
               style={{ background: 'none', border: 'none', padding: 0 }}>
               Выйти
