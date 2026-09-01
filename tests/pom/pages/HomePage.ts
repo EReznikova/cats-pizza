@@ -1,5 +1,5 @@
 import { type Page, expect } from '@playwright/test';
-import { CatsApi } from '../api/mockApi/catsApi';
+import { CatsApi } from '../api/mockApi/CatsApi';
 import { CartApi } from '../api/mockApi/CartApi';
 
 export class HomePage {
