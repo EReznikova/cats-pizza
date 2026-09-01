@@ -1,5 +1,5 @@
 export const testUsers = {
-  existing: { email: 'test1@test.ru', password: '123456' },
+  existing: { email: 'test@test.ru', password: 'Qwerty' },
 };
 
 export const testAddress = {
